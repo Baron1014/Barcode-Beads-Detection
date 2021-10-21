@@ -1,3 +1,4 @@
+import os
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -30,18 +31,36 @@ def myCONV(data):
 
     return output_array
 
+def clear(dir_name):
+    pwd = os.path.dirname(os.path.abspath(__file__))
+    delete_dir = pwd + '/' + dir_name
+    print(f"start clear {delete_dir}")
+    
+    ds = list(os.listdir(delete_dir))
+    for file in ds:
+        if file.endswith('.jpg'):
+            os.remove(delete_dir + '/' + file)
+    
 def main(data_name):
+    # 清除圖檔
+    clear('report')
+
     print(f"start execute convolution on {data_name}")
     # 讀取圖檔
     img = cv2.imread(f'data/{data_name}.jpg', cv2.IMREAD_GRAYSCALE)
 
     # Erosion
+    iter = 20
     kernel = np.ones((3,3), np.uint8) 
-    erosion = cv2.erode(img, kernel, iterations = 1)
+    erosion = cv2.erode(img, kernel, iterations = iter)
     plot(erosion, "Erosion")
 
+    # Dilation
+    dilation = cv2.dilate(erosion, kernel, iterations = iter)
+    plot(dilation, "Dilation")
+
     # 模糊化
-    blur = cv2.GaussianBlur(erosion,(5,5), 0)
+    blur = cv2.GaussianBlur(dilation,(5,5), 0)
     plot(blur, "smoothing")
 
     # Thresholding
