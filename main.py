@@ -57,7 +57,7 @@ def main(data_name):
 
     # Thresholding
     thresh = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 63, 14)
-    plot(thresh, "GAUSSIAN Adaptive Thresholding After Blur", report_dir)
+    plot(thresh, "GAUSSIAN_Adaptive_Thresholding_After_Blur", report_dir)
 
     # # Erosion
     # iter = 3
