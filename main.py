@@ -73,7 +73,7 @@ def main(data_name):
     print(f"img shape: {thresh.shape}")
     myconv = myCONV(thresh)
     print(f"after conv img shape: {myconv.shape}")
-    plot(myconv, f"{data_name} fter convolution", report_dir)
+    plot(myconv, f"{data_name}_after_convolution", report_dir)
 
 if __name__ == "__main__":
     main('W_A1_0_3')
