@@ -56,5 +56,4 @@ def myCONV(data):
     return output_array
 ```
 - result example
-example:
 ![](./report/W_B4_0_3/W_B4_0_3_after_convolution.jpg?raw=true)
