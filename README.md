@@ -12,14 +12,15 @@ img = cv2.imread(f'data/{data_name}.jpg', cv2.IMREAD_GRAYSCALE)
 ```
 blur = cv2.GaussianBlur(img,(5,5), 5)
 ```
-    example:
+example:
+![](./report/W_B4_0_3/smoothing.jpg?raw=true)
 
 - Open CV Gaussian Adaptive Threshold
 ```
 thresh = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 63, 14)
 ```
-    example:
-    
+example:
+![](./report/W_B4_0_3/GAUSSIAN_Adaptive_Thresholding_After_Blur.jpg?raw=true)
 
 ## Convolution 設計
 - mask設計
@@ -55,3 +56,5 @@ def myCONV(data):
     return output_array
 ```
 - result example
+example:
+![](./report/W_B4_0_3/W_B4_0_3_after_convolution.jpg?raw=true)
