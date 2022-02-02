@@ -1,12 +1,19 @@
-# 黑色定位點偵測 (Barcode Bead Detection)
+## Content
+- [Project Description](#project-description)
+- [Read Data](#read-data)
+- [Data Preprocessing](#data-preprocessing)
+- [Convolution Design](#convolution-design)
 
-## 讀取資料
-- 利用OpenCV將檔案讀入
+## Project Description
+The goal is to segment the Barcode Bead and segment the black positioning bar used in the Barcode Bead.
+
+## Read Data
+- Read the file using OpenCV
 ```
 img = cv2.imread(f'data/{data_name}.jpg', cv2.IMREAD_GRAYSCALE)
 ```
 
-## 資料處理
+## Data Preprocessing
 - Open CV Gaussian Blur
     - kernel size=5*5
 ```
@@ -22,35 +29,35 @@ thresh = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.TH
 example:
 ![](./report/W_B4_0_3/GAUSSIAN_Adaptive_Thresholding_After_Blur.jpg?raw=true)
 
-## Convolution 設計
-- mask設計
+## Convolution Design
+- mask design
 ```
 def get_mask():
-    # 設定為Gaussian filter
+    # setting aussian filter
     return np.array([[1,2,1], [2,4,2], [1,2,1]])
 ```
 - convolution
 ```
 def myCONV(data):
-    # 取得 Gaussian filter
+    # get Gaussian filter
     mask = get_mask()
-    # 影像寬及長
+    # Image width and length
     img_width = data.shape[0]
     img_length= data.shape[1]
-    # mask寬及長
+    # Mask width and length
     mask_width = mask.shape[0]
     mask_length= mask.shape[1]
 
     # init output array 
     output_array = np.zeros((img_width-math.ceil(mask_width/2), img_length-math.ceil(mask_length/2)))
-    # 從影像列第二個位置開始
+    # Start at the second position in the image row
     for ii in range(math.ceil(mask_width/2), img_width-math.floor(mask_width/2)):
-        # 從影像行第二個位置開始
+        # Start at the second position in the image column
         for ij in range(math.ceil(mask_length/2), img_length-math.floor(mask_length/2)):
-            # 進行mask的乘加運算
+            # multi-add
             for mi in range(mask_width):
                 for mj in range(mask_length):
-                    # 最後乘以1/16的原因是因為，需使mask數值總和為1，達到守恆
+                    # The reason for multiplying by 1/16 at the end is because the sum of the mask values ​​needs to be 1 to achieve conservation
                     output_array[ii-math.ceil(mask_width/2), ij-math.ceil(mask_length/2)] += (mask[mi, mj] * data[ii+mi-1, ij+mj-1]) * (1/16)
 
     return output_array

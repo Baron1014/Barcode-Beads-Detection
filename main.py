@@ -7,7 +7,7 @@ import math
 def plot(fig, figname, report_path):
     cv2.imwrite(f'{report_path}/{figname}.jpg', fig)
 
-# 建立conv mask大小
+# create convolution mask
 def get_mask():
     return np.array([[1,2,1], [2,4,2], [1,2,1]])
     
@@ -20,11 +20,11 @@ def myCONV(data):
 
     # init output array 
     output_array = np.zeros((img_width-math.ceil(mask_width/2), img_length-math.ceil(mask_length/2)))
-    # 從影像列第二個位置開始
+    # Start at the second position in the image column
     for ii in range(math.ceil(mask_width/2), img_width-math.floor(mask_width/2)):
-        # 從影像行第二個位置開始
+        # Start at the second position in the image row
         for ij in range(math.ceil(mask_length/2), img_length-math.floor(mask_length/2)):
-            # 進行muti-add
+            # muti-add
             for mi in range(mask_width):
                 for mj in range(mask_length):
                     output_array[ii-math.ceil(mask_width/2), ij-math.ceil(mask_length/2)] += (mask[mi, mj] * data[ii+mi-1, ij+mj-1]) * (1/16)
@@ -42,16 +42,16 @@ def clear(delete_dir):
 def main(data_name):
     report_dir = os.path.dirname(__file__) + f"/report/{data_name}"
     if os.path.exists(report_dir):
-        # 清除圖檔
+        # clear image
         clear(report_dir)
     else:
         os.mkdir(report_dir)
 
     print(f"start execute convolution on {data_name}")
-    # 讀取圖檔
+    # read image
     img = cv2.imread(f'data/{data_name}.jpg', cv2.IMREAD_GRAYSCALE)
 
-    # 模糊化
+    # GaussianBlur
     blur = cv2.GaussianBlur(img,(5,5), 5)
     plot(blur, "smoothing", report_dir)
 
